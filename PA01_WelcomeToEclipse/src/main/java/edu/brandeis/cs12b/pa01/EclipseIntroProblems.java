@@ -38,6 +38,7 @@ public class EclipseIntroProblems {
 		// TODO implement me!
 		Arrays.sort(items);
 		for (int i = 0; i < items.length; i++) {
+			// Two pointers
 			int low = i + 1;
 			int top = items.length - 1;
 			while (top > low) {
@@ -78,13 +79,16 @@ public class EclipseIntroProblems {
 			else if(str.charAt(i) == ')') {
 				balancer--;
 			}
+			// Invalid input
 			else {
 				return false;
 			}
+			// If a ')' appear before '(' in a pair, then it is not valid
 			if (balancer < 0) {
 				return false;
 			}
 		}
+		// If balanced or not
 		if (balancer == 0) {
 			return true;
 		}
@@ -106,6 +110,7 @@ public class EclipseIntroProblems {
 	 */
 	public static boolean isBalancedBrackets(String str) {
 		// TODO implement me!
+		// Use an array to store the balancer for each kind of brackets
 		int[] balancer = new int[4];
 		for (int i = 0; i < str.length(); i++) {
 			switch (str.charAt(i)) {
@@ -125,6 +130,7 @@ public class EclipseIntroProblems {
 				}
 			}
 		}
+		// Test if all kinds of brackets are balanced
 		for (int i = 0; i < balancer.length; i++) {
 			if (balancer[i] != 0) {
 				return false;
@@ -168,20 +174,27 @@ public class EclipseIntroProblems {
 		int downBound = arr.length - 1;
 		int leftBound = 0;
 		int upBound = 0;
-		int direction = 0; // 0-right 1-down 2-left 3-up
+		int direction = 0; // Which direction is the next step going: 0-right 1-down 2-left 3-up
 		for (int i = 0; i < arr.length * arr[0].length - 1; i++) {
+			// This records the value at the coordinate BEFORE the moving operation
 			lastVal = arr[y][x];
+			// Do the movement
 			switch (direction) {
+			// Going right
 			case 0:
+				// Not getting to the right boundary yet, keep moving right
 				if(x < rightBound) {
 					x++;
 				}
+				// When reach the right boundary, start going down
+				// Since a row counting start from the top has been gone through, the up boundary shrinks by 1
 				else {
 					y++;
 					upBound++;
 					direction = 1;
 				}
 				break;
+			// Going down
 			case 1:
 				if(y < downBound) {
 					y++;
@@ -192,6 +205,7 @@ public class EclipseIntroProblems {
 					direction = 2;
 				}
 				break;
+			// Going left
 			case 2:
 				if(x > leftBound) {
 					x--;
@@ -202,6 +216,7 @@ public class EclipseIntroProblems {
 					direction = 3;
 				}
 				break;
+			// Going up
 			case 3:
 				if(y > upBound) {
 					y--;
@@ -217,7 +232,7 @@ public class EclipseIntroProblems {
 					isInc && arr[y][x] > lastVal || 
 					!isInc && arr[y][x] < lastVal
 				)) {
-				return false; // if neither strictly increasing nor decreasing, then false
+				return false; // if neither strictly increasing nor decreasing, then return false
 			}
 		}		
 		return true;
