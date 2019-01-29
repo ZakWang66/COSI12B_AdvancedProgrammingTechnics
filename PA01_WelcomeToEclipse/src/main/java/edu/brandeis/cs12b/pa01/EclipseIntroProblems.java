@@ -2,6 +2,7 @@ package edu.brandeis.cs12b.pa01;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Stack;
 
 public class EclipseIntroProblems {
 	/**
@@ -15,10 +16,16 @@ public class EclipseIntroProblems {
 	public static int countRepeats(int[] items) {
 		// TODO implement me
 		HashSet<Integer> shownItems = new HashSet<Integer>();
+		HashSet<Integer> repeatItems = new HashSet<Integer>();
 		for (int i = 0; i < items.length; i++) {
-			shownItems.add(items[i]);
+			if(shownItems.contains(items[i])) {
+				repeatItems.add(items[i]);
+			}
+			else {
+				shownItems.add(items[i]);
+			}
 		}
-		return items.length - shownItems.size();
+		return repeatItems.size();
 	}
 	
 	
@@ -110,33 +117,48 @@ public class EclipseIntroProblems {
 	 */
 	public static boolean isBalancedBrackets(String str) {
 		// TODO implement me!
-		// Use an array to store the balancer for each kind of brackets
-		int[] balancer = new int[4];
+		if (str.isEmpty()) {
+			return false;
+		}
+		Stack<Character> stack = new Stack<Character>();
+		
 		for (int i = 0; i < str.length(); i++) {
 			switch (str.charAt(i)) {
-			case '(': balancer[0]++; break;
-			case ')': balancer[0]--; break;
-			case '{': balancer[1]++; break;
-			case '}': balancer[1]--; break;
-			case '[': balancer[2]++; break;
-			case ']': balancer[2]--; break;
-			case '<': balancer[3]++; break;
-			case '>': balancer[3]--; break;
-			default: return false;
-			}
-			for (int j = 0; j < balancer.length; j++) {
-				if (balancer[j] < 0) {
+			case '(': 
+			case '[':
+			case '{':
+			case '<':
+				stack.push(str.charAt(i)); break;
+			case ')':
+				if (stack.empty() || stack.pop() != '('){
 					return false;
 				}
-			}
-		}
-		// Test if all kinds of brackets are balanced
-		for (int i = 0; i < balancer.length; i++) {
-			if (balancer[i] != 0) {
+				break;
+			case ']':
+				if (stack.empty() || stack.pop() != '['){
+					return false;
+				}
+				break;
+			case '}':
+				if (stack.empty() || stack.pop() != '{'){
+					return false;
+				}
+				break;
+			case '>':
+				if (stack.empty() || stack.pop() != '<'){
+					return false;
+				}
+				break;
+			default:
 				return false;
 			}
 		}
-		return true;
+		if (stack.empty()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	/**
