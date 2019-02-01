@@ -11,7 +11,7 @@ public class EclipseIntroTest {
 	public void countRepeatsTest() {
 		assertEquals(0, EclipseIntroProblems.countRepeats(new int[] {1, 2, 3}));
 		assertEquals(1, EclipseIntroProblems.countRepeats(new int[] {1, 3, 2, 2}));
-		assertEquals(2, EclipseIntroProblems.countRepeats(new int[] {1, 4, 2, 6, 4, 2}));
+		assertEquals(2, EclipseIntroProblems.countRepeats(new int[] {2, 4, 2, 6, 4, 2}));
 	}
 	
 	@Test
@@ -31,6 +31,7 @@ public class EclipseIntroTest {
 		assertTrue(EclipseIntroProblems.isBalancedBrackets("(<>)"));
 		assertTrue(EclipseIntroProblems.isBalancedBrackets("{}[]<>()"));
 		assertFalse(EclipseIntroProblems.isBalancedBrackets("<()"));
+		assertFalse(EclipseIntroProblems.isBalancedBrackets("<(>)"));
 	}
 
 //	EXTRA CREDIT
@@ -43,6 +44,7 @@ public class EclipseIntroTest {
 		int[][] arr3 = {{4, 3},{1, 2}};
 		assertTrue(EclipseIntroProblems.extraCreditSpiral(arr1));
 		assertFalse(EclipseIntroProblems.extraCreditSpiral(arr2));
-		assertTrue(EclipseIntroProblems.extraCreditSpiral(arr3));		
+		assertTrue(EclipseIntroProblems.extraCreditSpiral(arr3));
+		assertFalse(EclipseIntroProblems.extraCreditSpiral(new int[][] {{1}}));
 	}
 }

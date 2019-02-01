@@ -185,6 +185,9 @@ public class EclipseIntroProblems {
 	 */
 	public static boolean extraCreditSpiral(int[][] arr) {
 		// TODO implement me!
+		if (arr == null || arr.length == 0 || arr[0] == null || arr[0].length <=1) {
+			return false;
+		}
 		boolean isInc = false; // whether it is an increasing spiral or not
 		if (arr[0][1] - arr[0][0] > 0) {
 			isInc = true;
