@@ -9,11 +9,10 @@ public class ComputerPlayer {
 	public static void main(String[] args) {
 		ComputerPlayer comp = new ComputerPlayer();
 		GameOf15 game = new GameOf15();
-		game = new GameOf15(new int[][] {{0,1,2,3},{6,7,11,4},{5,9,8,10},{13,14,15,12}});
+		//game = new GameOf15(new int[][] {{0,1,2,3},{6,7,11,4},{5,9,8,10},{13,14,15,12}});
 		System.out.println(game);
 		//System.out.println(comp.solveRelaxed(game));
-		comp.solveReal(game);
-		//System.out.println(comp.solveReal(game));
+		System.out.println(comp.solveReal(game));
 
 	}
 	
@@ -156,8 +155,8 @@ public class ComputerPlayer {
 			buffer.push(tracker);
 			tracker = graph.get(tracker);
 		}
-		System.out.println("The process is : \n");
-		System.out.println(buffer.peek());
+		//System.out.println("The process is : \n");
+		//System.out.println(buffer.peek());
 		GameOf15 tracker2;
 		while (!buffer.isEmpty()) {
 			tracker = buffer.pop();
@@ -177,7 +176,7 @@ public class ComputerPlayer {
 						System.out.println("d");
 					}
 				}
-				System.out.println("\n" + tracker2);
+				//System.out.println("\n" + tracker2);
 			}
 		}
 	}
@@ -212,7 +211,7 @@ public class ComputerPlayer {
 		//if you decided to implement this part, remove the next line and implement your solution.
 		
 		if (!solvable(game)) {
-			System.out.println("Unable to solve");
+			//System.out.println("Unable to solve");
 			return game;
 		}
 		

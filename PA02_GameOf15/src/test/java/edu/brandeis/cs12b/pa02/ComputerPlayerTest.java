@@ -46,6 +46,31 @@ public class ComputerPlayerTest {
 		String expectedOutput = "u" + newLine;
 		
 		assertEquals(game.getValue(GameOf15.NUM_ROWS - 1, GameOf15.NUM_COLS - 1), 0);
+		String a = outContent.toString();
+		assertTrue(outContent.toString().equals(expectedOutput));
+	}
+	
+	@Test
+	public void testReal() {
+		GameOf15 game = new GameOf15( new int[][] 
+				{{1, 2, 3, 4},
+				{5, 6, 8, 12},
+				{9, 0, 10, 7},
+				{13, 14, 11, 15}});
+		
+		ComputerPlayer comp = new ComputerPlayer();
+		game = comp.solveReal(game);
+		
+		String expectedOutput = "l" + newLine +
+								"l" + newLine +
+								"d" + newLine +
+								"r" + newLine +
+								"u" + newLine +
+								"u" + newLine +
+								"l" + newLine;
+		
+		assertEquals(game.getValue(GameOf15.NUM_ROWS - 1, GameOf15.NUM_COLS - 1), 0);
+		String a = outContent.toString();
 		assertTrue(outContent.toString().equals(expectedOutput));
 	}
 }
