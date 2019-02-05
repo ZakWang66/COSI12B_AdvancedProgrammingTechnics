@@ -48,6 +48,7 @@ public class ComputerPlayerTest {
 		assertEquals(game.getValue(GameOf15.NUM_ROWS - 1, GameOf15.NUM_COLS - 1), 0);
 		String a = outContent.toString();
 		assertTrue(outContent.toString().equals(expectedOutput));
+			
 	}
 	
 	@Test

@@ -9,11 +9,10 @@ public class ComputerPlayer {
 	public static void main(String[] args) {
 		ComputerPlayer comp = new ComputerPlayer();
 		GameOf15 game = new GameOf15();
-		//game = new GameOf15(new int[][] {{0,1,2,3},{6,7,11,4},{5,9,8,10},{13,14,15,12}});
+		game = new GameOf15(new int[][]{{0,1,2,3},{6,7,11,4},{5,9,8,10},{13,14,15,12}});
 		System.out.println(game);
 		//System.out.println(comp.solveRelaxed(game));
 		System.out.println(comp.solveReal(game));
-
 	}
 	
 	/**
@@ -48,39 +47,16 @@ public class ComputerPlayer {
 	 * @return the solved game of 15 board
 	 */
 	
-	public void moveBlankTo(GameOf15 game, Point destination) {
-		Point blank = game.findBlank();
-		int goRow = destination.row - blank.row;
-		int goCol = destination.col - blank.col;
-		if (goRow >= 0) {
-			for (int i = 0; i < goRow; i++) {
-				System.out.println("u");
-				game.moveUp();
-			}
-		}
-		else {
-			for (int i = 0; i < -goRow; i++) {
-				System.out.println("d");
-				game.moveDown();
-			}
-		}
-		if (goCol >= 0) {
-			for (int i = 0; i < goCol; i++) {
-				System.out.println("l");
-				game.moveLeft();
-			}
-		}
-		else {
-			for (int i = 0; i < -goCol; i++) {
-				System.out.println("r");
-				game.moveRight();
-			}
-		}
-	}
-	
 	public GameOf15 solveRelaxed(GameOf15 game) {
 		//TODO implement me
-		moveBlankTo(game,new Point(3,3));
+		while (game.findBlank().row != 3) {
+			System.out.println("u");
+			game.moveUp();
+		}
+		while (game.findBlank().col != 3) {
+			System.out.println("l");
+			game.moveLeft();
+		}
 		return game;
 	}
 	
@@ -210,10 +186,10 @@ public class ComputerPlayer {
 		//if you decided not to implement this part, don't touch the line below.
 		//if you decided to implement this part, remove the next line and implement your solution.
 		
-		if (!solvable(game)) {
-			//System.out.println("Unable to solve");
-			return game;
-		}
+//		if (!solvable(game)) {
+//			System.out.println("Unable to solve");
+//			return game;
+//		}
 		
 		Map<GameOf15,GameOf15> graph = new HashMap<GameOf15,GameOf15>();
 		HashSet<String> appeared = new HashSet<String>();
