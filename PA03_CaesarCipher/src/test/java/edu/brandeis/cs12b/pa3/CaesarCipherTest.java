@@ -61,7 +61,7 @@ public class CaesarCipherTest {
 		assertEquals(encoded, cipher.encode(original, -1));
 		assertEquals(original, cipher.decode(encoded, -1));
 	}
-	/*		
+	
 	 @Test
 	 public void multiEncodeTest() {
 		 assertEquals("b b b b", MultiCaesarCipher.multiEncode("a a a a", new int[] {1, 2}));
@@ -75,5 +75,5 @@ public class CaesarCipherTest {
 		 assertEquals("PA3 is the best!", MultiCaesarCipher.multiDecode("WL0 pd eop mlda!", new int[] {7, 11}));
 		 assertEquals("PA3 is the best!", MultiCaesarCipher.multiDecode("WL8 th ewl qldi!", new int[] {7, 11, 15}));
 	 }
-	 */
+	 
 }

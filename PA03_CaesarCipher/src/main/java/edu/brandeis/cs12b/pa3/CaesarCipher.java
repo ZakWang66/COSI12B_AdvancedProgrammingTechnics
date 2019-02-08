@@ -14,12 +14,36 @@ public class CaesarCipher {
 		while (scan.hasNextLine()) {
 			words.add(scan.nextLine());
 		}
+		scan.close();
 	}
 	
-	private char calc(char c, int n, char low, char high) {
-		int diff = (int)c - (int)low - (int)n;
-		char result = diff >= 0 ? (char)(low + diff) : (char)(high + diff % (high - low + 1));
+	private static char calc(boolean operation, char c, int n, char low, char high) {
+		int diff = (int)c - (int)low;
+		diff = operation ? diff + n : diff - n;
+		int length = high - low + 1;
+		char result = diff >= 0 ? (char)(low + diff % length) : (char)(high + 1 + diff % length);
 		return result;
+	}
+	
+	public static void processChar(boolean operation, StringBuilder message, int i, int n) {
+		char c = message.charAt(i);
+		if (c >= '0' && c <= '9') // digits
+			message.replace(i,i+1, "" + calc(operation, c, n, '0', '9'));
+		else if (c >= 'A' && c <= 'Z') // upper case alphabets
+			message.replace(i, i+1, "" + calc(operation, c, n, 'A', 'Z'));
+		else if (c >= 'a' && c <= 'z') // lower case alphabets
+			message.replace(i, i+1, "" + calc(operation, c, n, 'a', 'z'));
+	}
+	
+	private static String processString(boolean operation, String s, int n) {
+		if (s == null) {
+			return null;
+		}
+		StringBuilder message = new StringBuilder(s);
+		for (int i = 0; i < message.length(); i++) {
+			processChar(operation, message, i, n);
+		}
+		return message.toString();
 	}
 	
 	/**
@@ -29,20 +53,7 @@ public class CaesarCipher {
 	 * @return String the string encoded
 	 */
 	public String encode(String s, int n) {
-		if (s == null) {
-			return null;
-		}
-		StringBuilder message = new StringBuilder(s);
-		for (int i = 0; i < message.length(); i++) {
-			char c = message.charAt(i);
-			if (c >= '0' && c <= '9') // digits
-				message.replace(i,i+1, "" + (char)((c - '0' + n) % 10 + '0'));
-			else if (c >= 'A' && c <= 'Z') // upper case alphabets
-				message.replace(i, i+1, "" + (char)((c - 'A' + n) % 26 + 'A'));
-			else if (c >= 'a' && c <= 'z') // lower case alphabets
-				message.replace(i, i+1, "" + (char)((c - 'a' + n) % 26 + 'a'));
-		}
-		return message.toString();
+		return processString(true, s, n);
 	}
 
 	/**
@@ -52,20 +63,7 @@ public class CaesarCipher {
 	 * @return String the string decoded
 	 */
 	public String decode(String s, int n) {
-		if (s == null) {
-			return null;
-		}
-		StringBuilder message = new StringBuilder(s);
-		for (int i = 0; i < message.length(); i++) {
-			char c = message.charAt(i);
-			if (c >= '0' && c <= '9') // digits
-				message.replace(i,i+1, "" + calc(c, n, '0', '9'));
-			else if (c >= 'A' && c <= 'Z') // upper case alphabets
-				message.replace(i, i+1, "" + calc(c, n, 'A', 'Z'));
-			else if (c >= 'a' && c <= 'z') // lower case alphabets
-				message.replace(i, i+1, "" + calc(c, n, 'a', 'z'));
-		}
-		return message.toString();
+		return processString(false, s, n);
 	}
 	
 	/**
