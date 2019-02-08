@@ -25,6 +25,25 @@ public class CaesarCipherTest {
 		
 		String output = cipher.encode(original, 1);
 		assertEquals(encoded, output);
+		
+		original = "h K&8";
+		encoded = "l O&8";
+		output = cipher.encode(original, 30);
+		assertEquals(encoded, output);
+		
+		original = " 1O/z";
+		encoded = " 6F/q";
+		output = cipher.encode(original, -35);
+		assertEquals(encoded, output);
+		
+		original = "";
+		encoded = "";
+		output = cipher.encode(original, -35);
+		assertEquals(encoded, output);
+		
+		original = null;
+		output = cipher.encode(original, -35);
+		assertEquals(null, output);
 	}
 	
 	@Test //Decode
@@ -34,6 +53,16 @@ public class CaesarCipherTest {
 		
 		String output = cipher.decode(encoded, 1);
 		assertEquals(original, output);
+		
+		original = "h K&8";
+		encoded = "l O&8";
+		output = cipher.decode(encoded, 30);
+		assertEquals(original, output);
+		
+		original = " 1O/z";
+		encoded = " 6F/q";
+		output = cipher.decode(encoded, -35);
+		assertEquals(original, output);
 	}
 	
 	@Test //Encode and then decode
@@ -42,6 +71,16 @@ public class CaesarCipherTest {
 		String encoded = cipher.encode(original, 1);
 
 		String output = cipher.decode(encoded, 1);
+		assertEquals(original, output);
+		
+		original = "h K&8";
+		encoded = cipher.encode(original, 30);
+		output = cipher.decode(encoded, 30);
+		assertEquals(original, output);
+		
+		original = " 1O/z";
+		encoded = cipher.encode(original, -35);
+		output = cipher.decode(encoded, -35);
 		assertEquals(original, output);
 	}
 	

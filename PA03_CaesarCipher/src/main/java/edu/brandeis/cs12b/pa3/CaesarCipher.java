@@ -17,6 +17,15 @@ public class CaesarCipher {
 		scan.close();
 	}
 	
+	/**
+	 * Calculate the result of encoding or decoding a character
+	 * @param operation true for encoding, false for decoding
+	 * @param c the character to calculate
+	 * @param n the shift value
+	 * @param low the lower boundary for the character's type e.g. '0' for digits
+	 * @param high the higher boundary for the character's type e.g. '9' for digits
+	 * @return the result of calculation
+	 */
 	private static char calc(boolean operation, char c, int n, char low, char high) {
 		int diff = (int)c - (int)low;
 		diff = operation ? diff + n : diff - n;
@@ -25,6 +34,14 @@ public class CaesarCipher {
 		return result;
 	}
 	
+	/**
+	 * Process a char in a StringBuilder by identify its type (upper case alphabet, lower case alphabet or digit),
+	 * the result will replace the original value in the StringBuilder
+	 * @param operation true for encoding, false for decoding
+	 * @param message the StringBuilder to modify
+	 * @param i the index of the target char
+	 * @param n the shift value
+	 */
 	public static void processChar(boolean operation, StringBuilder message, int i, int n) {
 		char c = message.charAt(i);
 		if (c >= '0' && c <= '9') // digits
@@ -35,6 +52,13 @@ public class CaesarCipher {
 			message.replace(i, i+1, "" + calc(operation, c, n, 'a', 'z'));
 	}
 	
+	/**
+	 * Do Caesar-cipher processing for a String
+	 * @param operation true for encoding, false for decoding
+	 * @param s the String to process
+	 * @param n the shift value
+	 * @return the processed String
+	 */
 	private static String processString(boolean operation, String s, int n) {
 		if (s == null) {
 			return null;

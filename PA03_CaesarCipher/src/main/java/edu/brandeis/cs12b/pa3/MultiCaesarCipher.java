@@ -1,6 +1,13 @@
 package edu.brandeis.cs12b.pa3;
 
 class MultiCaesarCipher{
+	/**
+	 * Do multi-Caesar-cipher processing for a String
+	 * @param operation true for encoding, false for decoding
+	 * @param s the String to process
+	 * @param shifts the shift array
+	 * @return the processed String
+	 */
 	private static String multiProcessString(boolean operation, String s, int[] shifts) {
 		if (s == null) {
 			return null;
@@ -15,6 +22,7 @@ class MultiCaesarCipher{
 		}
 		return message.toString();
 	}
+	
 	/**
 	 * This is method to encode a string with multiple shift digits
 	 * @param s the string to be encoded
