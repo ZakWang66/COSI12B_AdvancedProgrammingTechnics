@@ -44,6 +44,12 @@ public class CaesarCipherTest {
 		original = null;
 		output = cipher.encode(original, -35);
 		assertEquals(null, output);
+		
+		original = "PA3 is the best!";
+		encoded = "PA1 is the best!";
+		output = cipher.encode(original, -52);
+		assertEquals(encoded, output);
+		
 	}
 	
 	@Test //Decode
@@ -88,9 +94,16 @@ public class CaesarCipherTest {
 	public void testDecodeNoShift() throws FileNotFoundException {
 		String original = "according to all known laws of aviation there is no way a bee should be able to fly its wings are too small to get its fat little body off the ground the bee of course can fly anyway because the bee does not care what humans think is impossible";
 		String encoded = "hjjvykpun av hss ruvdu shdz vm hcphapvu aolyl pz uv dhf h ill zovbsk il hisl av msf paz dpunz hyl avv zthss av nla paz mha spaasl ivkf vmm aol nyvbuk aol ill vm jvbyzl jhu msf hufdhf iljhbzl aol ill kvlz uva jhyl doha obthuz aopur pz ptwvzzpisl"; //shift = 7
-		
+				
 		String output = cipher.decode(encoded);
-		assertEquals(original, output);		
+		assertEquals(original, output);
+		
+		original = "according to all known laws of aviation there is no way a bee should be able to fly its wings are too small to get its fat little body off the ground the bee of course can fly anyway because the bee does not care what humans think is impossible";
+		encoded = "hjjvYkpun av hss ruVdu Shdz vm hcphApvu Aolyl pz uv dhf h Ill zovBsk il hisl av msf Paz dpunz hyl avv zThss av nla paz mha spaasl ivkf vmm aol nyvbuk aol ill vm jvbyzl jhu mSf hufdhf Iljhbzl aol ill kvlz Uva jhyl dOha obthuz aoPur pz ptwvzzpisl"; //shift = 7
+			
+		output = cipher.decode(encoded);
+		assertEquals(original, output);	
+		
 	}
 	
 	@Test //Negative shifts

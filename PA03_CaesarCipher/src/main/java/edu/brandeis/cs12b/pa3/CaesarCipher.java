@@ -30,7 +30,8 @@ public class CaesarCipher {
 		int diff = (int)c - (int)low;
 		diff = operation ? diff + n : diff - n;
 		int length = high - low + 1;
-		char result = diff >= 0 ? (char)(low + diff % length) : (char)(high + 1 + diff % length);
+		int shift = diff % length;
+		char result = shift >= 0 ? (char)(low + shift) : (char)(high + 1 + shift);
 		return result;
 	}
 	
@@ -99,6 +100,7 @@ public class CaesarCipher {
 		if (s == null) {
 			return null;
 		}
+		s = s.toLowerCase();
 		for (int i = 0; i < 26; i++) {
 			String decodedMessage =  decode(s, i);
 			String[] message = decodedMessage.split(" ");
