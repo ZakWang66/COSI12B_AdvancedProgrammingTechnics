@@ -8,33 +8,28 @@ public class LeftSnowPlow extends SnowPlow {
 
 	protected String name = "LeftSnowPlow";
 	
+	/*
 	@Override
 	public boolean place(City city, Point location, String facing) {
 		//TODO: Implement me!
-		if (super.place(city, location, facing)) {
-			super.city.clearSnow(location);
-			return true;
-		}
-		else {
-			return false;
-		}
 	}
+	*/
 	
 	@Override
 	public boolean move() {
 		//TODO: Implement me!		
 		if (super.move()) {
-			super.city.clearSnow(location);
 			return true;
 		}
 		else {
 			super.turnLeft();
 			if (super.move()) {
-				super.city.clearSnow(location);
 				return true;
 			}
 			else {
-				this.reportMoveError();
+				if (name.equals("LeftSnowPlow")) {
+					this.reportMoveError();
+				}
 				return false;
 			}
 		}

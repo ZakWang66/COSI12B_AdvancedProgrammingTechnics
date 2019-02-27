@@ -1,5 +1,7 @@
 package edu.brandeis.cs12b.pa04;
 
+import edu.brandeis.cs12b.pa04.PathingCar;
+
 import edu.brandeis.cs12b.pa04.provided.City;
 import edu.brandeis.cs12b.pa04.provided.Point;
 import edu.brandeis.cs12b.pa04.provided.VehicleError;
@@ -11,16 +13,20 @@ public class Car extends Vehicle {
 	@Override
 	public boolean place(City city, Point location, String facing) {
 		//TODO: Implement me!
-		if (city.isSnowed(location)) {
+		if (!super.place(city, location, facing) || city.isSnowed(location)) {
 			this.reportPlaceError();
 			return false;
 		}
-		return super.place(city, location, facing);
+		return true;
 	}
 	
 	@Override
 	public boolean move() {
-		if (!city.isSnowed(location.translate(facing)) && super.move()) {
+		// For PathingCar use, directly call the default move method in Vehicle class
+		if ((this instanceof PathingCar) && ((PathingCar)this).name.equals("simulateCar")) {
+			return super.move();
+		}
+		if (super.move() && !city.isSnowed(location)) {
 			return true;
 		}
 		else {

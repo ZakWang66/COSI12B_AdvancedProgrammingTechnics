@@ -16,6 +16,7 @@ public class SnowPlow extends Vehicle {
 			return true;
 		}
 		else {
+			reportPlaceError();
 			return false;
 		}
 	}
@@ -24,11 +25,14 @@ public class SnowPlow extends Vehicle {
 	public boolean move() {
 		//TODO: Implement me!
 		if (super.move()) {
-			this.city.clearSnow(location);
+			// A "phantomSnowPlow" is used for PathingCar simulation, which won't really clear snow
+			if (name.equals("SnowPlow") || name.equals("LeftSnowPlow") || name.equals("RightSnowPlow")) {
+				this.city.clearSnow(location);
+			}
 			return true;
 		}
 		else {
-			if (this.getName().equals("SnowPlow")) {
+			if (name.equals("SnowPlow")) {
 				this.reportMoveError();
 			}
 			return false;

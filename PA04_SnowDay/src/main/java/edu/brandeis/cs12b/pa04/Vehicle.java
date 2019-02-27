@@ -10,6 +10,21 @@ public abstract class Vehicle {
 	protected String facing;
 	
 	/**
+	 * Figure out whether the input coordinate is in the city
+	 * @param city
+	 * @param target
+	 * @return in or not in
+	 */
+	private boolean isInCity(City city, Point target) {
+		// Not been placed yet
+		if (city == null) {
+			return false;
+		}
+		return (target.x < city.maxX && target.y < city.maxY &&
+				target.x >= 0 && target.y >= 0) ? true : false ;
+	}
+	
+	/**
 	 * This places your vehicle into a city. If invalid, ensure that 
 	 * somewhere in your code the proper VehicleError is printed.
 	 * 
@@ -20,8 +35,7 @@ public abstract class Vehicle {
 	 */
 	public boolean place(City city, Point location, String facing){
 		//TODO: Implement Baseline place method
-		if (city.isOffRoad(location)) {
-			this.reportPlaceError();
+		if (!isInCity(city, location) || city.isOffRoad(location)) {
 			return false;
 		}
 		else {
@@ -42,7 +56,7 @@ public abstract class Vehicle {
 	public boolean move(){
 		//TODO: Implement baseline move method
 		Point target = location.translate(facing);
-		if (city.isOffRoad(target)) {
+		if (!isInCity(city, target) || city.isOffRoad(target)) {
 			return false;
 		}
 		else {

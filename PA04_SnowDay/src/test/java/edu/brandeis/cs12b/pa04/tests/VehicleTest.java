@@ -134,6 +134,47 @@ public class VehicleTest {
 		
 		assertEquals(VehicleError.CAR_MOVE_ERROR + newLine, outContent.toString());
 	}
+	
+	@Test
+	public void testCarFail2() {
+		City straightLine = new City(new int[][]{
+			{0,0,0},
+			{0,2,0},
+			{0,2,0},
+			{0,2,0},
+			{0,2,0},
+			{0,2,0},
+			{0,2,0},
+			{0,2,0},
+		});
+		
+		Simulator sim = new Simulator(straightLine);
+		
+		Car car = new Car();
+		sim.placeVehicle(car, new Point(1, 1), "SOUTH");
+		sim.step(7);
+		assertEquals(VehicleError.CAR_MOVE_ERROR + newLine, outContent.toString());
+	}
+	
+	@Test
+	public void testCarFail3() {
+		City straightLine = new City(new int[][]{
+			{0,0,0},
+			{0,1,0},
+			{0,2,0},
+			{0,2,0},
+			{0,2,0},
+			{0,2,0},
+			{0,2,0},
+			{0,2,0},
+		});
+		
+		Simulator sim = new Simulator(straightLine);
+		
+		Car car = new Car();
+		sim.placeVehicle(car, new Point(3, 1), "SOUTH");
+		assertEquals(VehicleError.CAR_PLACEMENT_ERROR + newLine, outContent.toString());
+	}
 
 	@Test
 	public void testLeftSnowPlow() {
