@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\usepackage{fontspec}
+\geometry{letterpaper,left=3.18cm,right=3.18cm,top=2.54cm,bottom=2.54cm}
+
+\begin{document}
+\setmainfont{Times New Roman}
+\noindent
+\textbf{Zekai Wang - 1/28: [PARTICIPATION] \\Read BJP Chapter 1 and 2 and respond to warmups\\}
+\\[0pt]
+1. What is the difference between a formal and an actual parameter? Use your own words.\\
+\\[0pt]
+The actual parameter is the parameter passing to the method when calling them.\\
+The formal parameter is the parameter defined when writing a method, it can be called in the method and the value depends on the actual parameter passed in.\\
+\\[0pt]
+2. In what way is a String object like an array, and in what way different?\\
+\\[0pt]
+A String object in Java is just like a char array. (I would say it is in C/C++...) However, since a String in Java is packaged as an Object, we can't use 
+the syntax of calling a char element in a char array to get a character in a particular position. Instead, to a String let's say someString, we call 
+someString.charAt(i) to get the character at index i. There might be a char array field in the implementation of the String class, but since it's an 
+Object, we need to follow the rules of interacting with Object when using it. This also provides us a lot of useful methods such as "split", "subString", 
+which makes it easier for us to process the Strings.\\
+\\[0pt]
+3. Methods often return information to the caller (not always!). What are all the different ways you can think up for a method to return info the the caller? Use your own words!\\
+\\[0pt]
+1. If a method's return type is not void, it can return am Object or a primitive type value that contains information to its caller.\\
+2. A method can modify fields declared outside of it, which can be seen not only by itself, but also by some other parts of the program, including its caller...\\
+3. A method can modify an object passed in by parameter, which is a kind of reference. The modification will be done on the particular object, since the parameter 
+   is actually a pointer pointing to it.\\
+\\[0pt]
+4. List two or three concepts from the readings that you are still unsure or confused about\\
+\\[0pt]
+One thing confuses me is that when I'm reading the java official documentations, I find it seems that Java designers defined some kind of a Class named as some mark 
+ending with "[]", this makes me think that arrays in java is probably also a kind of Object with special syntax. More over, I even think about more Java syntax are 
+probably written by special Objects, such as "instanceof" ? (even "if","while","for"...? I don't know...). It is really interesting how they make this works...
+\end{document}
+

@@ -1,0 +1,65 @@
+{
+  "floors": {
+    "0": {
+      "numOfBookcases": 1,
+      "bookcases": {
+        "0": {
+          "numOfShelves": 1,
+          "shelves": {
+            "0": {
+              "books": {
+                "0": {
+                  "checkedIn": true,
+                  "location": {
+                    "bookcase": 0,
+                    "floor": 0,
+                    "shelf": 0
+                  },
+                  "title": "A Modern Approach to Artificial Intelligence"
+                },
+                "1": {
+                  "checkedIn": true,
+                  "location": {
+                    "bookcase": 0,
+                    "floor": 0,
+                    "shelf": 0
+                  },
+                  "title": "Art of Computer Programming"
+                },
+                "2": {
+                  "checkedIn": true,
+                  "location": {
+                    "bookcase": 0,
+                    "floor": 0,
+                    "shelf": 0
+                  },
+                  "title": "Computer Organization and Design"
+                },
+                "3": {
+                  "checkedIn": true,
+                  "location": {
+                    "bookcase": 0,
+                    "floor": 0,
+                    "shelf": 0
+                  },
+                  "title": "Distributed Algorithms"
+                },
+                "4": {
+                  "checkedIn": true,
+                  "location": {
+                    "bookcase": 0,
+                    "floor": 0,
+                    "shelf": 0
+                  },
+                  "title": "Linear Algebra"
+                }
+              },
+              "capacity": 5
+            }
+          }
+        }
+      }
+    }
+  },
+  "numOfFloors": 1
+}
