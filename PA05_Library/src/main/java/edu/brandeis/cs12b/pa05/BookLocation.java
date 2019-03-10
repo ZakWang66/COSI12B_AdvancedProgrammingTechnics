@@ -4,7 +4,6 @@ public class BookLocation {
 	private int floor;
 	private int bookcase;
 	private int shelf;
-
 	
 	public BookLocation(int floor, int bookcase, int shelf) {
 		this.floor = floor;

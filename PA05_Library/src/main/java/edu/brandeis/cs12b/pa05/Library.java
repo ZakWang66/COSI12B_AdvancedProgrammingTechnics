@@ -34,6 +34,24 @@ public class Library extends Block{
 	}
 	
 	/**
+	 * Find a block which is a child or a sub-child of the library at a specific location...
+	 * @param loc
+	 * @param level
+	 * @return the block found, null for no such block
+	 */
+	private Block findBlock(BookLocation loc, int level) {
+		Block b = this;
+		int[] array = new int[] {loc.getFloor(), loc.getCase(), loc.getShelf()};
+		for (int i = 0; i < level; i++) {
+			b = b.findChildren(array[i]);
+			if (b == null) {
+				return null;
+			}
+		}
+		return b;
+	}
+	
+	/**
 	 * Returns the number of floors this library has
 	 * @return the number of floors
 	 */
@@ -47,9 +65,8 @@ public class Library extends Block{
 	 * @return the number of cases
 	 */
 	public int getCasesOnFloor(int floor) {
-		if (floor >= getChildrenList().size()) return -1;
-		Floor theFloor = (Floor)getChildrenList().get(floor);
-		return theFloor.getChildrenList().size();
+		BookLocation loc = new BookLocation(floor, -1, -1);
+		return findBlock(loc, 1).getChildrenList().size();
 	}
 	
 	/**
@@ -59,11 +76,8 @@ public class Library extends Block{
 	 * @return the number of shelves
 	 */
 	public int getShelvesInCase(int floor, int bookcase) {
-		if (floor >= getChildrenList().size()) return -1;
-		Floor theFloor = (Floor)getChildrenList().get(floor);
-		if (bookcase >= theFloor.getChildrenList().size()) return -1;
-		Case theCase = (Case)theFloor.getChildrenList().get(bookcase);
-		return theCase.getChildrenList().size();
+		BookLocation loc = new BookLocation(floor, bookcase, -1);
+		return findBlock(loc, 2).getChildrenList().size();
 	}
 	
 	/**
@@ -74,13 +88,9 @@ public class Library extends Block{
 	 * @return the shelf capacity
 	 */
 	public int getCapacityOfShelf(int floor, int bookcase, int shelf) {
-		if (floor >= getChildrenList().size()) return -1;
-		Floor theFloor = (Floor)getChildrenList().get(floor);
-		if (bookcase >= theFloor.getChildrenList().size()) return -1;
-		Case theCase = (Case)theFloor.getChildrenList().get(bookcase);
-		if (shelf >= theCase.getChildrenList().size()) return -1;
-		Shelf theShelf = (Shelf)theCase.getChildrenList().get(shelf);
-		return theShelf.getCapacity();
+		BookLocation loc = new BookLocation(floor, bookcase, shelf);
+		Shelf s = (Shelf)findBlock(loc, 3);
+		return s.getCapacity();
 	}
 
 	
@@ -110,20 +120,12 @@ public class Library extends Block{
 	}
 	
 	/**
-	 * Re turn the bookshelf at the input location, null if no such bookshelf
+	 * Return the bookshelf at the input location, null if no such bookshelf
 	 * @param loc location
 	 * @return the bookshelf
 	 */
 	private Shelf findBookShelf(BookLocation loc) {
-		Floor theFloor = (Floor)getChildrenList().get(loc.getFloor());
-		if (theFloor == null) return null;
-		Case theCase = (Case)theFloor.getChildrenList().get(loc.getCase());
-		if (theCase == null) return null;
-		Shelf theShelf = (Shelf)theCase.getChildrenList().get(loc.getShelf());
-		if (theShelf == null)
-			return null;
-		else
-			return theShelf;
+		return (Shelf)findBlock(loc, 3);
 	}
 	
 	/**

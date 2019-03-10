@@ -11,7 +11,6 @@ import java.util.ArrayList;
  */
 public abstract class Block <T extends Block<? super T>> {
 	private ArrayList<T> childrenList;
-	private int index;
 	public String name;
 	
 	public Block() {
@@ -29,6 +28,15 @@ public abstract class Block <T extends Block<? super T>> {
 	
 	public ArrayList<T> getChildrenList() {
 		return childrenList;
+	}
+	
+	public Block findChildren(int index) {
+		if (index < getChildrenList().size() && index != -1) {
+			return getChildrenList().get(index);
+		}
+		else {
+			return null;
+		}
 	}
 
 }
