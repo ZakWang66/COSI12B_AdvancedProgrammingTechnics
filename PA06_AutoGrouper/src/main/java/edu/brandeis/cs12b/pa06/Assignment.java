@@ -29,6 +29,7 @@ public class Assignment {
 	private void randomAssign() {
 		List<String> students = course.getStudents();
 		List<TA> tas = course.getTAs();
+		// This value is the size of a 'small' group, a 'big' group will have one more element than this.
 		minAssignment = students.size()/tas.size();
 		for (TA ta : tas) {
 			List<String> taStudentList = new LinkedList<String>();
@@ -40,15 +41,19 @@ public class Assignment {
 			}
 			groups.put(ta, taStudentList);
 		}
+		// Assign the rest to some TAs to make 'big' groups
 		int i = 0;
 		while (!students.isEmpty()) {
 			groups.get(tas.get(i)).add(students.get(0));
 			students.remove(0);
+			i++;
 		}
 	}
 	
 	/**
-	 * Solve the conflict problem by swapping so the even assignment rule won't be broken
+	 * Solve the conflict problem by swapping so the even assignment rule won't be broken,
+	 * if fail to swap, try to move the conflict student to another TA's group (this group must be a 'big' one
+	 * and the target TA's group must be a 'small' one in order to move)
 	 */
 	private void solveConflict() {
 		List<TA> tas = course.getTAs();
@@ -58,8 +63,10 @@ public class Assignment {
 			for (int i = 0; i < ttaStudentList.size(); i++) {
 				String e1 = ttaStudentList.get(i);
 				if (ttaConflictList.contains(e1)) {
-					if (!searchSwapTarget(i, e1, thisTA, ttaStudentList, ttaConflictList)) {
-						throw new ImpossibleGroupException();
+					if (!searchTarget(true, i, e1, thisTA, ttaStudentList, ttaConflictList)) {
+						if (ttaStudentList.size() == minAssignment || !searchTarget(false, i, e1, thisTA, ttaStudentList, ttaConflictList))
+							throw new ImpossibleGroupException();
+						i--;
 					}
 				}
 			}
@@ -67,24 +74,37 @@ public class Assignment {
 	}
 	
 	/**
-	 * Search for a target student in another TA's student list (pre-assignment list) who can swap with conflict student to solve the conflict
+	 * This function have two functions controlled by the boolean argument - function
+	 * true:  Search for a target student in another TA's student list (pre-assignment list) who can swap with conflict student to solve the conflict
+	 * false: Search for a target TA who can accept the conflict student from another TA when it has failed to swap, 
+	 *        this can only success when the original TA has one more student than the target TA.
 	 * @param i - the index of the original conflict student in the original TA's student list (pre-assignment list)
 	 * @param e1 - the original conflict student
 	 * @param thisTA - the original TA who reported a conflict
 	 * @param ttaStudentList - the original TA's student list (pre-assignment list)
 	 * @param ttaConflictList - the original TA's conflict list
-	 * @return Whether the target conflict successfully solved by swapping or not
+	 * @return Whether the target conflict successfully solved by swapping/moving or not
 	 */
-	private boolean searchSwapTarget(int i, String e1, TA thisTA, List<String> ttaStudentList, List<String> ttaConflictList) {
+	private boolean searchTarget(boolean function, int i, String e1, TA thisTA, List<String> ttaStudentList, List<String> ttaConflictList) {
 		List<TA> tas = course.getTAs();
 		for (TA anotherTA : tas) {
 			List<String> ataStudentList = groups.get(anotherTA);
 			List<String> ataConflictList = anotherTA.getConflicts();
 			if (!anotherTA.getName().equals(thisTA.getName()) && !ataConflictList.contains(e1)) {
-				for (int j = 0; j < ataStudentList.size(); j++) {
-					String e2 = ataStudentList.get(j);
-					if (!ttaConflictList.contains(e2)) {
-						swap (i, j, ttaStudentList, ataStudentList);
+				// Swap
+				if (function) {
+					for (int j = 0; j < ataStudentList.size(); j++) {
+						String e2 = ataStudentList.get(j);
+						if (!ttaConflictList.contains(e2)) {
+							swap (i, j, ttaStudentList, ataStudentList);
+							return true;
+						}
+					}
+				}
+				// Move
+				else {
+					if (ataStudentList.size() == minAssignment) {
+						move (i, ttaStudentList, ataStudentList);
 						return true;
 					}
 				}
@@ -105,6 +125,17 @@ public class Assignment {
 		String e2 = l2.remove(p2);
 		l1.add(p1, e2);
 		l2.add(p2, e1);
+	}
+	
+	/**
+	 * Remove a element from l1 and insert it to the end of l2
+	 * @param p1
+	 * @param l1
+	 * @param l2
+	 */
+	private void move (int p1, List<String> l1, List<String> l2) {
+		String e1 = l1.remove(p1);
+		l2.add(e1);
 	}
 	
 	/**
@@ -134,7 +165,6 @@ public class Assignment {
 	 * @throws ImpossibleGroupException if the problem is unsolvable in the given circumstances.
 	 */
 	public void createGroups() {
-		// TODO Implement me!
 		if (course.getTAs().size() == 0) throw new ImpossibleGroupException();
 		if (course.getAssignments().size() == 1) {
 			randomAssign();
