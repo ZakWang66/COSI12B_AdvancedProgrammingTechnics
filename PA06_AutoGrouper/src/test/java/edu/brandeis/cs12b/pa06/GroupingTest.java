@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -77,6 +78,26 @@ public class GroupingTest {
 			Assignment pa = cosi12.addAssignment("PA" + i);
 			pa.createGroups();
 			assertFalse(pa.getGroupForTA(ari).contains("Student #13"));
+		}
+	}
+	
+	@Test
+	// Test Edge case
+	public void edgeTest() {
+		for (int i = 1; i <= 70; i++) {
+			ari.addConflict("Student #" + i);
+		}
+		for (int i = 1; i < 7; i++) {
+			cosi12.getTAs().get(i).addConflict("Student #1");
+		}
+		
+		for(int i = 0; i < 10000; i++) {
+			Assignment pa = cosi12.addAssignment("PA" + i);
+			pa.createGroups();
+			for (int j = 71; j <= 80; j++) {
+				assertTrue(pa.getGroupForTA(ari).contains("Student #" + j));			
+			}
+			assertTrue(pa.getGroupForTA(cosi12.getTAs().get(7)).contains("Student #1"));
 		}
 	}
 	
