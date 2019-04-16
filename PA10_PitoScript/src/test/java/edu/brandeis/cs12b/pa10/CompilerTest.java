@@ -60,6 +60,7 @@ public class CompilerTest {
 		assertEquals(25.0, values.get("x"), 0.01);
 	}
 	
+	@Test
 	public void test3() {
 		// "x = (5 - 4) + (6 * 4); y = x * 4; z = x + (y * (2^2));"
 		List<ParseTreeNode> l = Arrays.asList(new ParseTreeNode[] {

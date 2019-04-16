@@ -18,16 +18,8 @@ public class Parser {
 		this.lexemes = lexemes;
 	}
 
-	/**
-	 * Turns the iterator of Lexemes into a list of ParseTreeNodes, with each element
-	 * being the root of a different parse tree
-	 * @return the List of ParseTreeNodes
-	 */
-	public List<ParseTreeNode> parse() {
-		// TODO Implement me!
-		if (lexemes == null) return null;
+	private List<List<ParseTreeNode>> getData() {
 		List<List<ParseTreeNode>> data = new ArrayList<>();
-		List<ParseTreeNode> res = new ArrayList<>();
 		List<ParseTreeNode> temp = new ArrayList<>();
 		// Divide data with semicolons
 		while (lexemes.hasNext()) {
@@ -40,38 +32,59 @@ public class Parser {
 				temp = new ArrayList<>();
 			}
 		}
+		return data;
+	}
+	
+	private void calcPriority(List<ParseTreeNode> record, Map<Integer, List<ParseTreeNode>> priority) {
+		int currentPriority = 0;
+		int i = 0;
+		// Calculate the priority by the number of brackets before the calculation
+		while (i < record.size()) {
+			LexemeType nodeType = record.get(i).getLexeme().getType();
+			switch (nodeType) {
+			case LEFT_PAREN: currentPriority++; record.remove(i); break;
+			case RIGHT_PAREN: currentPriority--; record.remove(i); break;
+			default:
+				if (nodeType == LexemeType.OPERATOR || nodeType == LexemeType.EQUALS) {
+					if (priority.get(currentPriority) == null) priority.put(currentPriority, new ArrayList<ParseTreeNode>());
+					priority.get(currentPriority).add(record.get(i));
+				}
+				i++;
+			}
+		}
+	}
+	
+	private void buildTree(List<ParseTreeNode> record, Map<Integer, List<ParseTreeNode>> priority) {
+		for (int j : priority.keySet()) {
+			List<ParseTreeNode> operators = priority.get(j);
+			for (int k = operators.size() - 1; k >= 0; k--) {
+				ParseTreeNode operation = operators.get(k);
+				int index = record.indexOf(operation);
+				operation.setLeft(record.get(index - 1));
+				operation.setRight(record.get(index + 1));
+				// Replace 3 nodes in the List with one which is the root
+				for (int l = 0; l < 3; l++) record.remove(index - 1);
+				record.add(index - 1, operation);
+			}
+		}
+	}
+	
+	/**
+	 * Turns the iterator of Lexemes into a list of ParseTreeNodes, with each element
+	 * being the root of a different parse tree
+	 * @return the List of ParseTreeNodes
+	 */
+	public List<ParseTreeNode> parse() {
+		// TODO Implement me!
+		if (lexemes == null) return null;
+		List<List<ParseTreeNode>> data = getData();
+		List<ParseTreeNode> res = new ArrayList<>();		
 		// For each record
 		for (List<ParseTreeNode> record : data) {
-			Map<Integer, List<ParseTreeNode>> priority = new TreeMap<>(Collections.reverseOrder());
-			int currentPriority = 0;
-			int i = 0;
-			// Calculate the priority by the number of brackets before the calculation
-			while (i < record.size()) {
-				LexemeType nodeType = record.get(i).getLexeme().getType();
-				switch (nodeType) {
-				case LEFT_PAREN: currentPriority++; record.remove(i); break;
-				case RIGHT_PAREN: currentPriority--; record.remove(i); break;
-				default:
-					if (nodeType == LexemeType.OPERATOR || nodeType == LexemeType.EQUALS) {
-						if (priority.get(currentPriority) == null) priority.put(currentPriority, new ArrayList<ParseTreeNode>());
-						priority.get(currentPriority).add(record.get(i));
-					}
-					i++;
-				}
-			}
+			Map<Integer, List<ParseTreeNode>> priority = new TreeMap<>(Collections.reverseOrder());			
+			calcPriority(record, priority);			
 			// Build the tree by the priority
-			for (int j : priority.keySet()) {
-				List<ParseTreeNode> operators = priority.get(j);
-				for (int k = operators.size() - 1; k >= 0; k--) {
-					ParseTreeNode operation = operators.get(k);
-					int index = record.indexOf(operation);
-					operation.setLeft(record.get(index - 1));
-					operation.setRight(record.get(index + 1));
-					// Replace 3 nodes in the List with one which is the root
-					for (int l = 0; l < 3; l++) record.remove(index - 1);
-					record.add(index - 1, operation);
-				}
-			}
+			buildTree(record, priority);
 			// Only the root left in each record
 			res.add(record.get(0));
 		}

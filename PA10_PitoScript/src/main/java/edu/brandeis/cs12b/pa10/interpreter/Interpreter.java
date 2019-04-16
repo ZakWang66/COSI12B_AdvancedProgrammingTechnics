@@ -50,10 +50,9 @@ public class Interpreter {
 			case "*": return numToNode(left * right);
 			case "/": return numToNode(left / right);
 			case "^": return numToNode(Math.pow(left, right));
-			}
-				
+			}		
+		default: return null;
 		}
-		return null;
 	}
 	
 	private ParseTreeNode numToNode(Double num) {
